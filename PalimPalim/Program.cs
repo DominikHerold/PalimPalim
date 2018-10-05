@@ -16,8 +16,6 @@ namespace PalimPalim
         {
             Console.WriteLine("Start");
 
-            CheckPalai();
-
             Timer = new Timer((int)TimeSpan.FromHours(5).TotalMilliseconds, false);
             Timer.Elapsed += CheckPalai;
 
