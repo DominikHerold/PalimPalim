@@ -14,7 +14,7 @@ namespace PalimPalim
 
         private const string Cookie = "foo"; // ToDo change
         private const string IncomesUrl = "/users/42/basic_incomes"; // ToDo change
-        private const string TransfersUrl = "/users/42/transfers"; // ToDo change
+        private const string TransfersUrl = "/users/42/transactions"; // ToDo change
         private const string PushoverKey = "token=foo&user=bar&message=PalimPalim"; // ToDo change
 
         private static void Main()
