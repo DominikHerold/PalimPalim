@@ -12,7 +12,7 @@ namespace PalimPalim
     {
         private static Timer Timer;
 
-        private const string Cookie = "foo"; // ToDo change
+        private static string Cookie = "foo"; // ToDo change
         private const string IncomesUrl = "/users/42/basic_incomes"; // ToDo change
         private const string TransfersUrl = "/users/42/transactions"; // ToDo change
         private const string PushoverKey = "token=foo&user=bar&message=PalimPalim"; // ToDo change
@@ -35,7 +35,22 @@ namespace PalimPalim
             using (var webClient = new HttpClient())
             {
                 webClient.DefaultRequestHeaders.Add(nameof(Cookie), Cookie);
-                var data = webClient.GetAsync(address).GetAwaiter().GetResult().Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                var response = webClient.GetAsync(address).GetAwaiter().GetResult();
+                var isSetCookie = response.Headers.TryGetValues("Set-Cookie", out var setCookies);
+                if (isSetCookie && setCookies != null)
+                {
+                    foreach (var setCookie in setCookies)
+                    {
+                        if (!setCookie.StartsWith("_palai_community_site_session=", StringComparison.OrdinalIgnoreCase))
+                            continue;
+
+                        var endIndex = setCookie.IndexOf(';');
+                        var newCookie = setCookie.Substring(0, endIndex);
+                        Cookie = newCookie;
+                    }
+                }
+
+                var data = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 return data;
             }
         }
