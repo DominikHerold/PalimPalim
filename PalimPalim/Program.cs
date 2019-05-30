@@ -14,7 +14,7 @@ namespace PalimPalim
 
         private static string Cookie = "foo"; // ToDo change
         private const string IncomesUrl = "/users/42/basic_incomes"; // ToDo change
-        private const string TransfersUrl = "/users/42/transactions"; // ToDo change
+        private const string TransfersUrl = "/a/name+someGUID/transactions"; // ToDo change
         private const string PushoverKey = "token=foo&user=bar&message=PalimPalim"; // ToDo change
 
         private static void Main()
@@ -86,7 +86,7 @@ namespace PalimPalim
                 var transferData = DownloadString($"https://palai.org{TransfersUrl}");
                 htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(transferData);
-                var balanceNode = htmlDoc.DocumentNode.SelectNodes("//td[@class='current-balance autohide']").Single();
+                var balanceNode = htmlDoc.DocumentNode.SelectNodes("//td[@class='current-balance']").Single();
                 var balance = balanceNode.InnerText.Trim();
 
                 SendToPushoverApi(balance);
