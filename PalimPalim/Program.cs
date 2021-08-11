@@ -86,10 +86,14 @@ namespace PalimPalim
                 var transferData = DownloadString($"https://palai.org{TransfersUrl}");
                 htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(transferData);
-                var balanceNode = htmlDoc.DocumentNode.SelectNodes("//td[@class='current-balance']").Single();
+                var balanceNode = htmlDoc.DocumentNode.SelectNodes("//td[@class='running-balance autohide']").Last();
                 var balance = balanceNode.InnerText.Trim();
 
                 SendToPushoverApi(balance);
+            }
+            else
+            {
+                Console.WriteLine("No Button found");
             }
         }
 
